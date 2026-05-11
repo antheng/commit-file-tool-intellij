@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.antheng.gitmessagegenintellijplugin</id>
-    <name>git-message-gen-intellij-plugin</name>
+    <id>com.antheng.gitbranchfileappend</id>
+    <name>Git Message Add Branch and Changes List</name>
     <vendor>antheng</vendor>
 
     <depends>com.intellij.modules.platform</depends>
@@ -15,8 +15,8 @@
     <actions>
         <action id="com.github.antheng.gitmessagegenintellijplugin.AppendStringAction"
                 class="com.github.antheng.gitmessagegenintellijplugin.actions.AppendStringAction"
-                text="Append String"
-                description="Appends the configured string to the commit message"
+                text="Append Commit Info"
+                description="Appends the branch and selected changes info including files and types of changes"
                 icon="AllIcons.Actions.AddList">
             <add-to-group group-id="Vcs.MessageActionGroup" anchor="last"/>
         </action>
