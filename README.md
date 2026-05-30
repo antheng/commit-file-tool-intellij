@@ -17,6 +17,15 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
+This is a helper plugin for appending the current branch and the list of imminent changes to your commit.
+
+This was created to assist workflows where branch and file info are needed in the commit messages (e.g. Jira integration). This is simple using
+git in CLI, as it was simple to uncomment that branch info and file list while writing the commit message. In Intellij IDEs
+however this is not possible. Hence this simple plugin helps you put that info in with a simple button click in the commit menu (above the commit message block).
+
+For v2025.3 and higher.
+<!-- Plugin description end -->
+
 This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
 
 This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.

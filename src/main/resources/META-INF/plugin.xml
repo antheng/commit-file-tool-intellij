@@ -8,14 +8,11 @@
     <depends>com.intellij.modules.vcs</depends>
     <depends>Git4Idea</depends>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <postStartupActivity implementation="com.github.antheng.gitmessagegenintellijplugin.startup.StartupActivity" />
-    </extensions>
 
     <actions>
         <action id="com.github.antheng.gitmessagegenintellijplugin.AppendStringAction"
                 class="com.github.antheng.gitmessagegenintellijplugin.actions.AppendStringAction"
-                text="Append Commit Info"
+                text="Append Commit File Info"
                 description="Appends the branch and selected changes info including files and types of changes"
                 icon="AllIcons.Actions.AddList">
             <add-to-group group-id="Vcs.MessageActionGroup" anchor="last"/>

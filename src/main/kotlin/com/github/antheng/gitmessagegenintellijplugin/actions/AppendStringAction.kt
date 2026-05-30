@@ -6,10 +6,11 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.Document
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.vcs.CheckinProjectPanel
 import com.intellij.openapi.vcs.FilePath
+import com.intellij.vcsUtil.VcsUtil
 import com.intellij.openapi.vcs.VcsDataKeys
+import com.intellij.openapi.vcs.changes.CurrentContentRevision
 import com.intellij.openapi.vcs.changes.Change
 import com.intellij.openapi.vcs.ui.Refreshable
 import com.intellij.openapi.ui.Messages
@@ -26,19 +27,47 @@ class AppendStringAction : AnAction() {
         val data = Refreshable.PANEL_KEY.getData(e.dataContext)
         val checkinProjectPanel : CheckinProjectPanel? = if (data is CheckinProjectPanel) data else null
         if (checkinProjectPanel != null) {
+            // Will include all files selected
             for (file in checkinProjectPanel.files) {
                 logger.info("file: ${file.path}")
             }
-            for (change in checkinProjectPanel.selectedChanges){
+
+            for (change in checkinProjectPanel.selectedChanges) {
                 logger.info("Change: ${change.beforeRevision?.file?.path}")
             }
         } else{
             return
         }
 
+        /**
+         * checkinProjectPanel.selectedChanges seems to only include changes that are already tracked by git.
+         * checkinProjectPanel.files only include files selected for the commit
+         * To get the full list of changes, filter checkinProjectPanel.files to find any files that are not in
+         * checkinProjectPanel.selectedChanges, and create new Change objects for them as if they are new files.
+         * Then combine these with the selectedChanges to get the full list of changes to be committed.
+         */
+        val selectedChangeFiles = checkinProjectPanel.selectedChanges.mapNotNull { change ->
+            (change.afterRevision?.file?.ioFile ?: change.beforeRevision?.file?.ioFile)?.path
+        }.toSet()
+
+        val unversionedNewFileChanges = checkinProjectPanel.files
+            .filter { file -> file.path !in selectedChangeFiles }
+            .map { file ->
+                Change(
+                    null, // New file changes are determined by the absence of a before revision
+                    CurrentContentRevision(
+                        VcsUtil.getFilePath(file.path, false)
+                    ),
+                )
+            }
+
+        val fullChangeList = checkinProjectPanel.selectedChanges + unversionedNewFileChanges
+        
+
         WriteCommandAction.runWriteCommandAction(project) {
             var currentText = document.text
-            if (currentText.isEmpty()){
+            // If no text currently in commit, set a default message that needs to be overwritten
+            if (currentText.trim().isEmpty()){
                 currentText = Messages.showInputDialog(
                     project,
                     "Enter your commit message:",
@@ -53,22 +82,15 @@ class AppendStringAction : AnAction() {
 
             val toSet = listOf(
                 currentText,
-                onBranchString(project),
-                fileListing(checkinProjectPanel.selectedChanges, project)
+                " On branch ${GitBranchUtil.guessRepositoryForOperation(project, e.dataContext)?.currentBranch?.name }",
+                fileListing(fullChangeList, project?.basePath)
             ).filter { it.isNotBlank() }.joinToString("\n\n").trim() // 1 paragraph gap between elements
 
             document.setText(toSet)
         }
     }
 
-    fun onBranchString(project: Project): String {
-        // Like the default git message, return a string in the following format: "On Branch $(BRANCH_NAME)"
-        logger.debug("Attempting to get branch string")
-        return " On branch ${GitBranchUtil.getCurrentRepository(project)?.currentBranch!!.name}"
-    }
-
-
-    fun fileListing(changeList: Collection<Change>, project: Project): String {
+    private fun fileListing(changeList: Collection<Change>, projectPath: String?): String {
         val typeLabels = mapOf(
             Change.Type.MODIFICATION to "modified:",
             Change.Type.NEW to "new file:",
@@ -85,21 +107,25 @@ class AppendStringAction : AnAction() {
                 val paddedLabel = label.padEnd(labelWidth)
                 val path = when (change.type) {
                     Change.Type.MOVED -> {
-                        val before = change.beforeRevision?.file?.let { getRelativePath(project, it) } ?: ""
-                        val after = change.afterRevision?.file?.let { getRelativePath(project, it) } ?: ""
+                        val before = change.beforeRevision?.file?.let {
+                            getRelativePath(projectPath, it)
+                        } ?: ""
+                        val after = change.afterRevision?.file?.let {
+                            getRelativePath(projectPath, it)
+                        } ?: ""
                         "$before -> $after"
                     }
-                    Change.Type.DELETED -> getRelativePath(project, change.beforeRevision!!.file)
-                    else -> getRelativePath(project, change.afterRevision!!.file)
+                    Change.Type.DELETED -> getRelativePath(projectPath, change.beforeRevision!!.file)
+                    else -> getRelativePath(projectPath, change.afterRevision!!.file)
                 }
                 append("       $paddedLabel   $path\n") // Prefix spacing, and at least 3 in front of the label
             }
         }.trimEnd()
     }
 
-    private fun getRelativePath(project: Project?, filePath: FilePath): String {
+    private fun getRelativePath(projectPath: String?, filePath: FilePath): String {
         val file = filePath.ioFile
-        val projectPath = project?.basePath ?: return file.name
+        val projectPath = projectPath ?: return file.name // Reassign project path to filename if its empty
         return file.relativeToOrSelf(File(projectPath)).path
     }
 
