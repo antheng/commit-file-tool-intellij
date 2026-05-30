@@ -5,7 +5,7 @@
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
 
 <!-- Plugin description -->
-This is a helper plugin for appending the current branch and the list of imminent changes to your commit.
+This is a helper plugin for appending the current branch and the list of imminent changes to your commit, similar to the output of `git status` command or the default commit message template when using `git commit` in CLI. 
 
 This was created to assist workflows where branch and file info are needed in the commit messages (e.g. Jira integration). This is simple using
 git in CLI, as it was simple to uncomment that branch info and file list while writing the commit message. In Intellij IDEs
