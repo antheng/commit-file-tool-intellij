@@ -1,4 +1,4 @@
-# git-message-gen-intellij-plugin
+# Git Commit File Changes Append Tool for IntelliJ IDEs
 
 ![Build](https://github.com/antheng/git-message-gen-intellij-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
