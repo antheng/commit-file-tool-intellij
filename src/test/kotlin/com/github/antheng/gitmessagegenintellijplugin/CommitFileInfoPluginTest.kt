@@ -170,7 +170,7 @@ class CommitFileInfoPluginTest () {
                     "New file did not appear in the commit message text:\n$generatedCommitMessage"
                 )
                 Assertions.assertTrue(
-                    generatedCommitMessage.contains("renamed:    Makefile -> pkg\\Makefile"),
+                    generatedCommitMessage.contains("renamed:    Makefile -> pkg${File.separator}Makefile"),
                     "Renamed filed did not appear in the commit message text:\n$generatedCommitMessage"
                 )
 
@@ -224,7 +224,7 @@ class CommitFileInfoPluginTest () {
                     "New file did not appear in the commit message text:\n$generatedCommitMessage"
                 )
                 Assertions.assertTrue(
-                    generatedCommitMessage.contains("renamed:    Makefile -> pkg\\Makefile"),
+                    generatedCommitMessage.contains("renamed:    Makefile -> pkg${File.separator}Makefile"),
                     "Renamed filed did not appear in the commit message text:\n$generatedCommitMessage"
                 )
             }
