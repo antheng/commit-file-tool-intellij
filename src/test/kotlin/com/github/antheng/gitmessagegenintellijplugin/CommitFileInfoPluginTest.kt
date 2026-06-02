@@ -97,7 +97,7 @@ class CommitFileInfoPluginTest () {
                     Assertions.assertTrue(
                         x(xQuery {
                             byTooltip(tooltipText)
-                        }).present(), //5
+                        }).present(),
                         assertMessage
                     )
                     x(xQuery {
