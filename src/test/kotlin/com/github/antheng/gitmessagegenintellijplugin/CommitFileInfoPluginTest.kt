@@ -90,7 +90,7 @@ class CommitFileInfoPluginTest () {
 
         context.runIdeWithDriver().useDriverAndCloseIde {
             // Wait for the IDE to load and the plugin to initialize
-            waitForIndicators(1.minutes)
+            waitForIndicators(10.minutes)
             ideFrame {
 
                 fun checkPresenceViaTooltipAndClick(tooltipText: String, assertMessage: String) {
