@@ -3,7 +3,7 @@ import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "2.2.0"
+    id("org.jetbrains.kotlin.jvm") version "2.4.0"
     id("org.jetbrains.intellij.platform") version "2.16.0"
     id("org.jetbrains.changelog") version "2.5.0"
 }
@@ -36,11 +36,11 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
     testImplementation("org.kodein.di:kodein-di-jvm:7.20.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.1")
-    testRuntimeOnly("org.jetbrains.kotlin:kotlin-reflect:2.2.0")
+    testRuntimeOnly("org.jetbrains.kotlin:kotlin-reflect:2.4.0")
 }
 
 configurations.all {
-    resolutionStrategy.force("org.jetbrains.kotlin:kotlin-reflect:2.2.0")
+    resolutionStrategy.force("org.jetbrains.kotlin:kotlin-reflect:2.4.0")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
