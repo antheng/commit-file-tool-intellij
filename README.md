@@ -1,8 +1,8 @@
 # Git Commit File Changes Append Tool for IntelliJ IDEs
 
 ![Build](https://github.com/antheng/git-message-gen-intellij-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/32030-git-commit-file-changes-append-tool)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/32030-git-commit-file-changes-append-tool)
+[![Version](https://img.shields.io/jetbrains/plugin/v/32030-git-commit-file-changes-append-tool.svg)](https://plugins.jetbrains.com/plugin/32030-git-commit-file-changes-append-tool)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/32030-git-commit-file-changes-append-tool.svg)](https://plugins.jetbrains.com/plugin/32030-git-commit-file-changes-append-tool)
 
 <!-- Plugin description -->
 This is a helper plugin for appending the current branch and the list of imminent changes to your commit, similar to the output of `git status` command or the default commit message template when using `git commit` in CLI. 
