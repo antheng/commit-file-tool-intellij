@@ -36,11 +36,11 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:6.1.0")
     testImplementation("org.kodein.di:kodein-di-jvm:7.20.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.11.0")
-    testRuntimeOnly("org.jetbrains.kotlin:kotlin-reflect:2.2.0")
+    testRuntimeOnly("org.jetbrains.kotlin:kotlin-reflect:2.4.0")
 }
 
 configurations.all {
-    resolutionStrategy.force("org.jetbrains.kotlin:kotlin-reflect:2.2.0")
+    resolutionStrategy.force("org.jetbrains.kotlin:kotlin-reflect:2.4.0")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
