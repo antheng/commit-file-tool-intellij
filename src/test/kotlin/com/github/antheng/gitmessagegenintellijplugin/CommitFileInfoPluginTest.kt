@@ -52,7 +52,9 @@ class CommitFileInfoPluginTest () {
             ).withVersion("2025.3")
         ).apply {
             PluginConfigurator(this).installPluginFromPath(
-                Paths.get("build/distributions/git-message-gen-intellij-plugin-0.0.1.zip")
+
+                File("build/distributions").listFiles { file -> file.extension == "zip" }
+                    ?.maxBy { it.lastModified() }!!.toPath()
             )
         }
 
@@ -114,8 +116,9 @@ class CommitFileInfoPluginTest () {
                     hotKey(KeyEvent.VK_CONTROL, KeyEvent.VK_A) // Select all files in the commit dialog
                     hotKey(KeyEvent.VK_SPACE) // Mark them all ready
                 }
-                
-                
+
+                sleep(500) // Wait for the button to become active after plugin updates with selected files
+
                 checkPresenceViaTooltipAndClick(
                     "Append Commit File Info", "Plugin append button missing"
                 )
