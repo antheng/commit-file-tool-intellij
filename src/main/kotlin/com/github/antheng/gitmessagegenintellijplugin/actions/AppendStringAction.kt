@@ -130,7 +130,9 @@ class AppendStringAction : AnAction() {
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabledAndVisible = getCommitMessageDocument(e) != null
+        val data = Refreshable.PANEL_KEY.getData(e.dataContext)
+        val checkinProjectPanel = if (data is CheckinProjectPanel) data else null
+        e.presentation.isEnabled = getCommitMessageDocument(e) != null && (checkinProjectPanel?.files?.isNotEmpty() == true)
     }
 
     private fun getCommitMessageDocument(e: AnActionEvent): Document? {
